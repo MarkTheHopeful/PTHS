@@ -10,7 +10,7 @@ START_POS = 200, 200
 COLORS = ["red", "yellow", "green", "blue"]
 # K = 3
 # R = 180
-K, R = map(int, input().split())
+K, R = map(int, input("Enter constants: K, R\n").split())
 
 # Interesting: 5|100 4|120;
 

@@ -7,13 +7,12 @@ __author__ = 'Ipatov_Mark'
 WIDTH = 500
 HEIGHT = 500
 START_POS = 200, 200
-COLORS = ["red", "yellow", "green", "blue"]
+COLORS = ["red", "orange", "yellow", "green", "blue", "violet"]
 # K = 3
 # R = 180
-K, R = map(int, input().split())
-TTL = 4
+K, R = map(int, input("Enter constants: K, R\n").split())
+TTL = min(int(input("Enter constant: Time To Live\n")), 6)
 
-# Interesting: 5|100 4|120;
 
 
 class Seed:
@@ -30,7 +29,7 @@ class Seed:
         return False
 
     def paint(self):
-        self.id = self.canvas.create_oval(self.x - 5, self.y - 5, self.x + 5, self.y + 5, fill=COLORS[self.gen % 4])
+        self.id = self.canvas.create_oval(self.x - 5, self.y - 5, self.x + 5, self.y + 5, fill=COLORS[self.gen % TTL])
 
     def delete(self):
         self.canvas.delete(self.id)
@@ -43,6 +42,8 @@ seeds = [Seed(START_POS[0], START_POS[1], canvas)]
 seeds[0].paint()
 gen = 0
 while True:
+    for i in range(len(seeds)):
+        seeds[i].TTL = seeds[i].TTL - 1
     n = len(seeds)
     for i in range(min(int(n * K), 1000)):
         seed = Seed(random.randint(0, WIDTH), random.randint(0, HEIGHT), canvas, gen + 1)
@@ -54,8 +55,6 @@ while True:
         if isAlive:
             seeds.append(seed)
             seed.paint()
-    for i in range(len(seeds)):
-        seeds[i].TTL = seeds[i].TTL - 1
     cou = 0
     for i in range(len(seeds)):
         if (seeds[i].TTL == 0):
